@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Check if the user provided an argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <path_to_image>"
+    exit 1
+fi
+
+IMAGE="$1"
+
+# Send notification to the user
+# notify-send "Changing Theme" "Applying new wallpaper and updating colours, please wait until confirmation..."
+
+# Set Wallpaper
+awww img "$IMAGE" --transition-type="center" --transition-step=255 --transition-fps="60"
+
+# Generate pywal colours
+wal -i "$IMAGE" -n -s -t -e
+
+# Make nvim use pywal colours
+#python3 /home/fwaith/.config/nvim/pywal/chadwal.py
+
+# Use Matugen to generate Material You colours
+matugen image "$IMAGE" -m "dark"
+
+# Refresh swaync
+# pkill swaync
+# swaync > /dev/null 2>&1 &
+
+# notify-send "Theme Applied" "Wallpaper and theme updated successfully"

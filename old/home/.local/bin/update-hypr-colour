@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Path to Hyprland config file
+CONFIG=$HOME/.config/hypr/hyprland.conf
+COLOURS=$HOME/.config/hypr/colors.conf
+
+# Grab rgba colours
+BORDER_ACTIVE=$(grep "\$primary =" "$COLOURS" | sed 's/$primary = rgba(//; s/)//; s/..$/cc/')
+BORDER_INACTIVE=$(grep "\$background =" "$COLOURS" | sed 's/$background = rgba(//; s/)//; s/..$/cc/')
+SHADOW=$(grep "\$shadow =" "$COLOURS" | sed 's/$shadow = rgba(//; s/)//; s/..$/cc/')
+
+# Updating the rgba for border colour
+line=$(grep -n "    col.active_border" "$CONFIG" | sed 's/:.*//')
+sed -i "${line}c\    col.active_border = rgba(${BORDER_ACTIVE})" "$CONFIG"
+
+line=$(grep -n "    col.inactive_border" "$CONFIG" | sed 's/:.*//')
+sed -i "${line}c\    col.inactive_border = rgba(${BORDER_INACTIVE})" "$CONFIG"
+
+line=$(($(grep -n "    shadow {" "$CONFIG" | sed 's/:.*//')+4))
+sed -i "${line}c\        color = rgba(${SHADOW})" "$CONFIG"

@@ -1,0 +1,15 @@
+#!/bin/bash
+# NOT FINISHED
+
+# Anki custom theme directory
+THEME=$HOME/.local/share/Anki2/addons21/688199788/themes/Custom.json
+
+# Waybar colour directory (Has clear colour labels)
+COLOURS=$HOME/.config/waybar/colors.css
+
+# Update background colour
+BACKGROUND=$(grep "@define-color background" "$COLOURS" | sed 's/    @define-color background #//; s/;//')
+line=$(($(grep -n "\"Background\"" "$THEME" | sed 's/:.*//')+2))
+sed -i "${line}c\\            \"#${BACKGROUND}\"," "$THEME"
+line=$(($(grep -n "\"Background (menu & tooltip)\"" "$THEME" | sed 's/:.*//')+2))
+sed -i "${line}c\\            \"#${BACKGROUND}\"," "$THEME"

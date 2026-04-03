@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Path to Rofi colours and config
+CONFIG=$HOME/.config/rofi/config.rasi
+CONFIG2=$HOME/.config/rofi/config-change-theme.rasi
+COLOURS=$HOME/.config/rofi/colors.rasi
+
+# Check if the files exist
+[ ! -f "$CONFIG" ] && echo "Error: config.rasi not found" && exit 1;
+[ ! -f "$CONFIG2" ] && echo "Error: config-change-theme.rasi not found" && exit 1;
+[ ! -f "$COLOURS" ] && echo "Error: colors.rasi not found" && exit 1;
+
+# Obtain hex codes for background and border
+BACKGROUND=$(grep "    surface: #" "$COLOURS" | sed 's/    surface: #//; s/;//')
+BORDER=$(grep "    primary: #" "$COLOURS" | sed 's/    primary: #//; s/;//')
+
+# Function to convert hex code to individual R, G and B values
+hex_to_rgb() {
+    # Input
+    local HEX="${1}"
+    
+    # Converting hexadecimal to decimal with arithmetic expansion
+    R=$((16#${HEX:0:2}))
+    G=$((16#${HEX:2:2}))
+    B=$((16#${HEX:4:2}))
+}
+
+# Updating the rgba for background-color
+hex_to_rgb "$BACKGROUND"
+line=$(grep -n "/**/ba" "$CONFIG" | sed 's/:.*//')
+sed -i "${line}c\\/**/background-color: rgba($R, $G, $B, 0.8);" "$CONFIG"
+line=$(grep -n "/**/ba" "$CONFIG2" | sed 's/:.*//')
+sed -i "${line}c\\/**/background-color: rgba($R, $G, $B, 0.8);" "$CONFIG2"
+
+# Updating the rgba for border-color
+hex_to_rgb "$BORDER"
+line=$(grep -n "/**/bo" "$CONFIG" | sed 's/:.*//')
+sed -i "${line}c\\/**/border-color: rgba($R, $G, $B, 0.8);" "$CONFIG"
+line=$(grep -n "/**/bo" "$CONFIG2" | sed 's/:.*//')
+sed -i "${line}c\\/**/border-color: rgba($R, $G, $B, 0.8);" "$CONFIG2"

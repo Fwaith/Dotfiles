@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Path to directories
+CURRENT=$(swww query | sed 's#^[^/]*##')
+WALLPAPERS=$HOME/Pictures/Wallpapers
+
+# Pick random wallpaper
+NEW=$(find "$WALLPAPERS" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.webp" \) -not -path "$CURRENT" | shuf -n 1)
+echo $NEW
+# Change wallpaper
+awww img "$NEW" --transition-type grow --transition-pos "top-left" --transition-step=255 --transition-fps="60"
+
+# Generate pywal colours
+wal -i "$NEW" -n -s -t -e
+
+# Use Matugen to generate Material You colours
+matugen image "$NEW" -m "dark"
