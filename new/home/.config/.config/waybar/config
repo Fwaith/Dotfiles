@@ -1,0 +1,93 @@
+{
+    "layer": "top",
+    "position": "top",
+    "output": ["eDP-1","DP-2","DP-3","DP-4"],
+
+    "modules-left": ["custom/theme-switcher", "hyprland/workspaces", "tray"],
+    "modules-center": ["clock", "clock#date"], 
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "custom/swaync"],
+
+    "battery": {
+        "format": "{icon}  {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "interval": 5,
+        "states": {
+            "warning": 40,
+            "critical": 20
+        },
+        "tooltip": false
+    },
+  
+    "clock": {
+        "format": "{:%I:%M %p}"
+    },
+  
+    "clock#date": {
+        "format": "{:%a %d %b}"
+    },
+  
+    "cpu": {
+        "format": "  {usage}%",
+        "interval": 5
+    },
+
+    "custom/swaync": {
+        "format": "󰂚",
+        "format-alt": "󱅫",
+        "on-click": "swaync-client --toggle-panel",
+        "tooltip": false
+    },
+
+    "custom/theme-switcher": {
+        "format": "󰣇",
+        "on-click": "bash ~/.local/bin/change-theme-random",
+        "tooltip": false
+    },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+        },
+        "persistent-workspaces": {
+            "1": [ ],
+            "2": [ ],
+            "3": [ ],
+            "4": [ ],
+            "5": [ ],
+        }	
+    },
+
+    "memory": {
+        "format": "  {percentage}%",
+        "interval": 5
+    },
+
+    "network": {
+        "format-wifi": " ",
+        "format-ethernet": " ",
+        "format-disconnected": "󰤮 ",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " Muted",
+        "format-icons": {
+            "headphones": "",
+            "default": ["", ""]
+        },
+        "scroll-step": 5,
+        "on-click": "pavucontrol" 
+    },
+
+    "tray": {
+        "spacing": 10
+    }
+
+}

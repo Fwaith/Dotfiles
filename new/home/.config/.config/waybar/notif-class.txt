@@ -1,0 +1,135 @@
+.notification-row {
+.notification-row:focus {
+.notification-row .notification-background {
+.notification-row .notification-background .notification { 
+/* The actual notification */
+.notification-row .notification-background .notification.low { 
+/* Low Priority Notification */
+.notification-row .notification-background .notification.normal { 
+/* Normal Priority Notification */
+.notification-row .notification-background .notification.critical { 
+/* Critical Priority Notification */
+.notification-row .notification-background .notification .notification-default-action { 
+/* The large action that also displays the notification summary and body */
+.notification-row .notification-background .notification .notification-default-action:hover {
+.notification-row .notification-background .notification .notification-default-action:not(:only-child) {
+  /* When alternative actions are visible */
+.notification-row .notification-background .notification .notification-default-action .notification-content {
+.notification-row .notification-background .notification .notification-default-action .notification-content .image {
+  /* Notification Primary Image */
+.notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
+  /* Notification app icon (only visible when the primary image is set) */
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box label {
+  /* Fixes base GTK 4 CSS setting a filter of opacity 50% for some odd reason */
+  filter: none;
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .summary {
+  /* Notification summary/title */
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
+  /* Notification time-ago */
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
+  /* Notification body */
+.notification-row .notification-background .notification .notification-default-action .notification-content progressbar {
+  /* The optional notification progress bar */
+.notification-row .notification-background .notification .notification-default-action .notification-content .body-image {
+  /* The "extra" optional bottom notification image */
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply {
+  /* The inline reply section */
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-entry {
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button {
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button:disabled
+.notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button:hover {
+.notification-row .notification-background .notification .notification-alt-actions {
+.notification-row .notification-background .notification .notification-action {
+  /* The alternative actions below the default action */
+.notification-row .notification-background .notification .notification-action > button {
+.notification-group {
+  /* Styling only for Grouped Notifications */
+  /* The groups close button */
+.notification-group:focus {
+.notification-group.low {
+  /* Low Priority Group */
+.notification-group.normal {
+  /* Low Priority Group */
+.notification-group.critical {
+  /* Low Priority Group */
+.notification-group .notification-group-close-button .close-button {
+.notification-group .notification-group-buttons, .notification-group .notification-group-headers {
+.notification-group .notification-group-headers {
+  /* Notification Group Headers */
+.notification-group .notification-group-headers .notification-group-icon {
+.notification-group .notification-group-headers .notification-group-header {
+.notification-group .notification-group-buttons {
+  /* Notification Group Buttons */
+.notification-group.collapsed {
+  /* When another group is expanded, lower the opacity of the collapsed ones */
+.notification-group.collapsed.not-expanded {
+.notification-group.collapsed .notification-row .notification {
+.notification-group.collapsed .notification-row:not(:last-child) {
+  /* Top notification in stack */
+  /* Set lower stacked notifications opacity to 0 */
+.notification-group.collapsed .notification-row:not(:last-child) .notification-action,
+.notification-group.collapsed .notification-row:not(:last-child) .notification-default-action {
+.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
+.control-center {
+  /* The Control Center which contains the old notifications + widgets */
+.control-center .control-center-list-placeholder {
+  /* The placeholder when there are no notifications */
+.control-center .control-center-list {
+  /* List of notifications */
+.control-center .control-center-list .notification {
+.control-center .control-center-list .notification .notification-default-action,
+.control-center .control-center-list .notification .notification-action {
+.control-center .control-center-list .notification .notification-default-action:hover,
+.control-center .control-center-list .notification .notification-action:hover {
+.blank-window {
+  /* Window behind control center and on all other monitors */
+.floating-notifications {
+.floating-notifications .notification {
+.widget {
+.widget-title > label {
+.widget-title > button {
+.widget-dnd label {
+.widget-dnd switch {
+.widget-dnd switch slider {
+.widget-label > label {
+.widget-mpris {
+  /* The parent to all players */
+.widget-mpris .widget-mpris-player {
+.widget-mpris .widget-mpris-player .mpris-background {
+.widget-mpris .widget-mpris-player .mpris-overlay {
+.widget-mpris .widget-mpris-player .mpris-overlay button:hover {
+  /* The media player buttons (play, pause, next, etc...) */
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-album-art {
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
+.widget-mpris .widget-mpris-player .mpris-overlay > box > button {
+  /* Change player control buttons */
+.widget-mpris .widget-mpris-player .mpris-overlay > box > button:hover {
+.widget-mpris > box > button {
+  /* Change player side buttons */
+.widget-mpris > box > button:disabled {
+  /* Change player side buttons insensitive */
+.widget-buttons-grid flowboxchild > button {
+.widget-buttons-grid flowboxchild > button.toggle:checked {
+  /* style given to the active toggle button */
+.widget-menubar {
+  /* The revealer buttons */
+  /* .AnyName { Name defined in config after #
+  .AnyName>button {
+  .AnyName>button:hover {
+.widget-menubar > .menu-button-bar {
+  /* The left button container */
+  /* The right button container */
+  /* The left and right button container */
+.widget-menubar > .menu-button-bar > .start {
+.widget-menubar > .menu-button-bar > .end {
+.widget-menubar > .menu-button-bar > .widget-menubar-container button {
+.widget-menubar > revealer * {
+.widget-menubar > revealer * button {
+.widget-menubar > revealer * button:last-child {
+.widget-slider label {
+
+/* Backlight widget */
+/* Inhibitors widget */
+.widget-inhibitors > label {
+.widget-inhibitors > button {
