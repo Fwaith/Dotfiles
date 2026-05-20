@@ -145,7 +145,7 @@ ShellRoot {
                     interval: 1000
                     running: true
                     repeat: true
-                    onTriggered: clock.text = Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
+                    onTriggered: clock.clockText.text = Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
                 }
 
                 MouseArea {
