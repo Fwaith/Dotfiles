@@ -1,6 +1,8 @@
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
+import Quickshell.Services.UPower
+import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 
@@ -117,14 +119,26 @@ ShellRoot {
             }
 
             // Clock Date and Time
-            Text {
-                id: clock
-                anchors.centerIn: parent
-                text: Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
-                color: Colours.md3.on_primary_container
+            Rectangle {
+                id:clock
+                height: parent.height
+                implicitWidth: clockText.implicitWidth + 14
 
-                font {
-                    pixelSize: 14
+                anchors.centerIn: parent
+
+                color: clockArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
+
+                Text {
+                    id: clockText
+
+                    anchors.centerIn: parent
+
+                    text: Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
+                    color: clockArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
+
+                    font {
+                        pixelSize: 14
+                    }
                 }
 
                 Timer {
@@ -132,6 +146,12 @@ ShellRoot {
                     running: true
                     repeat: true
                     onTriggered: clock.text = Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
+                }
+
+                MouseArea {
+                    id: clockArea
+                    anchors.fill: parent
+                    hoverEnabled: true
                 }
             }
 
@@ -151,12 +171,12 @@ ShellRoot {
                 Text {
                     anchors.centerIn: parent
 
-                    text: ""
+                    text: " "
                     // "", "", ""
                     color: audioArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
 
                     font {
-                        pixelSize: 16
+                        pixelSize: 14
                     }
                 }
 
@@ -170,7 +190,7 @@ ShellRoot {
             Rectangle {
                 id: cpu
                 height: parent.height
-                width: 30
+                implicitWidth: cpuText.implicitWidth + 14
 
                 anchors {
                     right: memory.left
@@ -181,13 +201,15 @@ ShellRoot {
                 color: cpuArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
 
                 Text {
+                    id: cpuText
+
                     anchors.centerIn: parent
 
                     text: ""
                     color: cpuArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
 
                     font {
-                        pixelSize: 16
+                        pixelSize: 14
                     }
                 }
 
@@ -201,7 +223,7 @@ ShellRoot {
             Rectangle {
                 id: memory
                 height: parent.height
-                width: 30
+                implicitWidth: memoryText.implicitWidth + 14
 
                 anchors {
                     right: network.left
@@ -210,15 +232,43 @@ ShellRoot {
                 }
 
                 color: memoryArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
+                property int memUsage: 0
+
+                Process {
+                    id: memProc
+                    command: ["sh", "-c", "free | grep Mem"]
+                    stdout: SplitParser {
+                        splitMarker: "\n"
+                        onRead: data => {
+                            if (!data) return
+                            var parts = data.trim().split(/\s+/)
+                            var total = parseInt(parts[1]) || 1
+                            var used = parseInt(parts[2]) || 0
+                            memory.memUsage = Math.round(100 * used / total)
+                        }
+                    }
+                    Component.onCompleted: running = true
+                }
+
+                Timer {
+                    interval: 2000
+                    running: true
+                    repeat: true
+                    onTriggered: {
+                        memProc.running = true
+                    }
+                }
 
                 Text {
+                    id: memoryText
+
                     anchors.centerIn: parent
 
-                    text: " "
+                    text: "   " + memory.memUsage + "%"
                     color: memoryArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
 
                     font {
-                        pixelSize: 16
+                        pixelSize: 14
                     }
                 }
 
@@ -232,7 +282,7 @@ ShellRoot {
             Rectangle {
                 id: network
                 height: parent.height
-                width:30
+                implicitWidth: networkText.implicitWidth + 14
 
                 anchors {
                     right: battery.left
@@ -243,14 +293,16 @@ ShellRoot {
                 color: networkArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
 
                 Text {
+                    id: networkText
+
                     anchors.centerIn: parent
 
-                    text: " "
+                    text: "  "
                     // "󰤮 "
                     color: networkArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
 
                     font {
-                        pixelSize: 16
+                        pixelSize: 14
                     }
                 }
 
@@ -264,7 +316,7 @@ ShellRoot {
             Rectangle {
                 id: battery
                 height: parent.height
-                width: 30
+                implicitWidth: batteryText.implicitWidth + 14
 
                 anchors {
                     right: notifications.left
@@ -273,16 +325,33 @@ ShellRoot {
                 }
 
                 color: batteryArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
+                readonly property int batteryLevel: UPower.displayDevice.percentage * 100
+                readonly property string batteryState: UPower.displayDevice.state
+
+                function batterySymbol(state, level) {
+                    let symbol;
+                    if (state == 1) {
+                        symbol = " ";
+                    } else {
+                        if (level <= 10) symbol = " ";
+                        else if (level <= 40) symbol = " ";
+                        else if (level <= 70) symbol = " ";
+                        else if (level < 90) symbol = " ";
+                        else symbol = " ";
+                    }
+                    return symbol;
+                }
 
                 Text {
+                    id: batteryText
+
                     anchors.centerIn: parent
 
                     color: batteryArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
-                    text: ""
-                    // "", "", "", "", "", ""
-
+                    text: battery.batterySymbol(battery.batteryState, battery.batteryLevel) + "  " + battery.batteryLevel + "%"
+                    
                     font {
-                        pixelSize: 16
+                        pixelSize: 14
                     }
                 }
 
@@ -296,7 +365,7 @@ ShellRoot {
             Rectangle {
                 id: notifications
                 height: parent.height
-                width: 30
+                implicitWidth: notificationsText.implicitWidth + 14
 
                 anchors {
                     right: parent.right
@@ -307,14 +376,16 @@ ShellRoot {
                 color: notificationArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
 
                 Text {
+                    id: notificationsText
+
                     anchors.centerIn: parent
 
-                    text: "󰂚"
+                    text: "󰂚 "
                     // text: "󱅫"
                     color: notificationArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
 
                     font {
-                        pixelSize: 16
+                        pixelSize: 14
                     }
                 }
 
