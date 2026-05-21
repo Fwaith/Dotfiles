@@ -127,15 +127,16 @@ ShellRoot {
                 anchors.centerIn: parent
 
                 color: clockArea.containsMouse ? Colours.md3.primary : Colours.md3.primary_container
+                property string currentTime: Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
 
                 Text {
                     id: clockText
 
                     anchors.centerIn: parent
 
-                    text: Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
+                    text: clock.currentTime
                     color: clockArea.containsMouse ? Colours.md3.on_primary : Colours.md3.on_primary_container
-
+                    
                     font {
                         pixelSize: 14
                     }
@@ -145,7 +146,7 @@ ShellRoot {
                     interval: 1000
                     running: true
                     repeat: true
-                    onTriggered: clock.clockText.text = Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
+                    onTriggered: clock.currentTime = Qt.formatDateTime(new Date(), "ddd d MMM  hh:mm AP")
                 }
 
                 MouseArea {
